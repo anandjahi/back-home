@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Back Home</title>
+  <meta name="description" content="Back Home is building infrastructure for diasporas and their allies to invest in sustainability, resilience, and community wealth back home.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/farmer-planting.jpg">
+  <style>
+    :root {
+      --paper: #f6f0e6;
+      --sand: #ece2d0;
+      --ink: #231a14;
+      --muted: rgba(35, 26, 20, 0.72);
+      --rule: rgba(35, 26, 20, 0.14);
+      --terracotta: #b4512c;
+      --terracotta-2: #9c4222;
+      --ochre: #d99a2b;
+      --sun: #e9a23b;
+      --gold: #f3c27a;
+      --leaf: #22432f;
+      --font: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --logo: 'DM Serif Display', Georgia, serif;
+      --wrap: 1240px;
+      --gutter: clamp(20px, 5vw, 56px);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    h1, h2, h3, p, ul { margin: 0; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .eyebrow { font-weight: 700; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); display: inline-flex; align-items: center; gap: 12px; }
+    .eyebrow::before { content: ''; width: 28px; height: 2px; background: currentColor; }
+    .h2 { font-weight: 800; font-size: clamp(38px, 5vw, 68px); line-height: 1.04; letter-spacing: -0.04em; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: inherit; font-weight: 700; font-size: 16px; line-height: 1; padding: 18px 28px; border-radius: 999px; border: 0; cursor: pointer; background: var(--terracotta); color: #fff; text-decoration: none; transition: background-color .25s ease, transform .25s ease; }
+    .btn:hover { background: var(--terracotta-2); transform: translateY(-1px); }
+    .btn:focus-visible { outline: 3px solid var(--ochre); outline-offset: 3px; }
+    .btn .arrow { transition: transform .25s ease; }
+    .btn:hover .arrow { transform: translateX(3px); }
+    .btn-light { background: var(--paper); color: var(--ink); }
+    .btn-light:hover { background: #fff; }
+    .btn-sun { background: var(--sun); color: var(--ink); }
+    .btn-sun:hover { background: #f0b04f; }
+    .text-link { color: var(--terracotta); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+    .text-link:hover { color: var(--terracotta-2); }
+
+    /* ---------- Nav ---------- */
+    .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; color: #fff; transition: background-color .35s ease, color .35s ease, box-shadow .35s ease; }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+    .logo { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font-family: var(--logo); font-size: 24px; letter-spacing: 0; line-height: 1; }
+    .logo svg { width: 30px; height: 30px; margin-top: -4px; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { text-decoration: none; font-size: 15px; font-weight: 600; opacity: .88; transition: opacity .2s ease; }
+    .nav-links a:hover { opacity: 1; }
+    .nav .btn { padding: 13px 22px; font-size: 14.5px; }
+    .nav.solid { background: rgba(246, 240, 230, 0.94); color: var(--ink); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--rule); }
+    .menu-btn { display: none; background: none; border: 0; color: inherit; width: 44px; height: 44px; margin-right: -10px; cursor: pointer; }
+    .menu-btn span { display: block; width: 22px; height: 2px; margin: 6px auto; background: currentColor; border-radius: 2px; transition: transform .3s ease, opacity .3s ease; }
+    .menu-open .menu-btn span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-open .menu-btn span:nth-child(2) { opacity: 0; }
+    .menu-open .menu-btn span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .mobile-menu { position: fixed; inset: 0; z-index: 40; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 96px var(--gutter) 48px; gap: 6px; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+    .mobile-menu a:not(.btn) { font-weight: 800; font-size: 40px; letter-spacing: -0.04em; text-decoration: none; line-height: 1.3; }
+    .mobile-menu .btn { margin-top: 28px; align-self: flex-start; }
+    .menu-open .mobile-menu { opacity: 1; visibility: visible; transition-delay: 0s; }
+    .menu-open .nav { color: var(--ink); }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .menu-btn { display: block; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; height: 100svh; min-height: 600px; overflow: hidden; background: #1b130e; color: #fff; }
+    .slides, .slide { position: absolute; inset: 0; }
+    .slide { opacity: 0; transition: opacity 1.4s ease; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
+    .slide.on { opacity: 1; }
+    .slide.on img { animation: kenburns 9s ease-out forwards; }
+    @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1.0); } }
+    /* The last photo sits to the right on wide screens so "Back Home" never lands on a face */
+    @media (min-width: 900px) {
+      .slide.slide-right { left: 32%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32%); mask-image: linear-gradient(90deg, transparent 0, #000 32%); }
+    }
+    .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20, 13, 9, 0.75) 0%, rgba(20, 13, 9, 0.42) 45%, rgba(20, 13, 9, 0.05) 80%), linear-gradient(0deg, rgba(20, 13, 9, 0.72) 0%, rgba(20, 13, 9, 0) 48%); pointer-events: none; }
+    .hero-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(60px, 12vh, 128px); }
+    .seq { display: grid; font-weight: 800; font-size: clamp(44px, 6.6vw, 88px); line-height: 1.04; letter-spacing: -0.045em; }
+    .seq .line { grid-area: 1 / 1; align-self: end; }
+    .seq .w { display: inline-block; opacity: 0; filter: blur(12px); transform: translateY(18px); transition: opacity .7s ease, filter .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+    .seq .w2 { transition-delay: .14s; }
+    .seq .line.in .w { opacity: 1; filter: blur(0); transform: none; }
+    .seq .line.out .w { opacity: 0; filter: blur(10px); transform: translateY(-14px); transition-duration: .45s; transition-delay: 0s; }
+    .seq .key { color: var(--gold); }
+    .seq .home-word { color: var(--gold); position: relative; }
+    .seq .swash { position: absolute; left: -2%; bottom: -0.17em; width: 104%; height: 0.3em; overflow: visible; }
+    .seq .swash path { fill: none; stroke: var(--sun); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 420; stroke-dashoffset: 420; transition: stroke-dashoffset 1s cubic-bezier(.6,0,.2,1) .55s; }
+    .seq .line.in .swash path { stroke-dashoffset: 0; }
+    /* The tagline fills in from left to right */
+    .tagline { margin-top: clamp(26px, 3.6vh, 38px); font-weight: 600; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.02em; line-height: 1.3; max-width: 34ch; text-wrap: balance; clip-path: inset(0 100% 0 0); transition: clip-path 1.5s cubic-bezier(.6,0,.2,1); }
+    .tagline.show { clip-path: inset(0 0 0 0); }
+    .hero-instant, .hero-instant * { transition: none !important; }
+
+    /* ---------- Reveal ---------- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+    .reveal.show { opacity: 1; transform: none; }
+
+    /* ---------- About ---------- */
+    .about { padding: clamp(96px, 13vw, 160px) 0 clamp(80px, 10vw, 120px); }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
+    .about-lead { font-size: clamp(28px, 3.2vw, 44px); line-height: 1.2; font-weight: 700; letter-spacing: -0.035em; margin-top: 26px; }
+    .about-lead .em { color: var(--terracotta); }
+    .collage { position: relative; height: clamp(420px, 44vw, 580px); }
+    .collage figure { position: absolute; margin: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 30px 60px -30px rgba(35, 26, 20, 0.45); }
+    .collage img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; }
+    .collage figure:hover img { transform: scale(1.04); }
+    .collage .c1 { top: 0; right: 0; width: 64%; height: 62%; }
+    .collage .c2 { bottom: 0; left: 0; width: 52%; height: 54%; }
+    .collage .c3 { bottom: 6%; right: 8%; width: 38%; height: 32%; border: 8px solid var(--paper); border-radius: 12px; }
+    .collage .sun { position: absolute; top: 9%; left: 8%; width: 88px; height: 88px; border-radius: 50%; background: var(--ochre); opacity: .9; }
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .collage { height: 400px; max-width: 560px; }
+    }
+    /* Bussa Fund card */
+    .bussa { margin-top: clamp(72px, 9vw, 120px); border-radius: 28px; overflow: hidden; background: var(--ink); color: #fff; display: grid; grid-template-columns: 1fr 1fr; min-height: 460px; }
+    .bussa-media { position: relative; min-height: 300px; }
+    .bussa-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; }
+    .bussa-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(35,26,20,0) 55%, rgba(35,26,20,1) 100%); }
+    .bussa-body { padding: clamp(32px, 5vw, 64px); display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+    .bussa-body p { font-size: clamp(21px, 1.9vw, 27px); line-height: 1.45; font-weight: 600; letter-spacing: -0.02em; }
+    .bussa-body a.fund { color: var(--gold); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+    .bussa-body a.form { color: #fff; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(255,255,255,.45); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+    .bussa-eyebrow { color: var(--gold); }
+    .bussa-title { font-weight: 800; font-size: clamp(34px, 3.6vw, 50px); letter-spacing: -0.04em; line-height: 1.05; margin: 16px 0 16px; }
+    .bussa-ctas { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      .bussa { grid-template-columns: 1fr; }
+      .bussa-media::after { background: linear-gradient(180deg, rgba(35,26,20,0) 55%, rgba(35,26,20,1) 100%); }
+    }
+
+    /* ---------- What we'll invest in ---------- */
+    .invest { background: var(--sand); padding: clamp(72px, 10vw, 136px) 0; }
+    .invest-head .h2 { margin: 20px 0 0; max-width: 16ch; }
+    .invest-head .h2 .em { color: var(--terracotta); }
+    .invest-grid { margin-top: clamp(30px, 4vw, 52px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .card { border-radius: 20px; overflow: hidden; background: var(--paper); display: flex; flex-direction: column; transition: transform .3s ease, box-shadow .3s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -30px rgba(35,26,20,.45); }
+    .card .img { aspect-ratio: 4 / 3.6; overflow: hidden; }
+    .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s ease; }
+    .card:hover img { transform: scale(1.05); }
+    .card .body { padding: 18px 20px 20px; }
+    .card h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25; }
+    @media (max-width: 1000px) { .invest-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .invest-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .card .img { aspect-ratio: 1; } .card .body { padding: 12px 14px 14px; } .card h3 { font-size: 15.5px; } }
+
+    /* ---------- Our Why ---------- */
+    .why { background: var(--leaf); color: #f6f0e6; padding: clamp(72px, 10vw, 136px) 0; }
+    .why .eyebrow { color: var(--ochre); }
+    .why h2 { margin-top: 20px; font-size: clamp(42px, 6vw, 88px); line-height: .98; }
+    .why h2 .em { color: var(--gold); }
+    .why-intro { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: rgba(246, 240, 230, 0.84); }
+    .why-intro strong { color: #fff; font-weight: 800; font-size: 1.25em; letter-spacing: -0.02em; }
+    .why-top { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; margin-bottom: clamp(36px, 5vw, 60px); }
+    .why-cta { margin-top: clamp(30px, 4vw, 48px); }
+    @media (max-width: 900px) { .why-top { grid-template-columns: 1fr; } }
+    .why-b { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "text card" "tabs card" "cta card"; column-gap: clamp(32px, 6vw, 96px); align-items: start; }
+    .b-text { grid-area: text; }
+    .b-tabs { grid-area: tabs; }
+    .why-b .why-cta { grid-area: cta; }
+    .b-card { grid-area: card; align-self: center; }
+    .b-dots { grid-area: dots; }
+    .why-b h2 { margin-bottom: 22px; }
+    .b-lead { margin-top: 18px; font-weight: 700; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.4; letter-spacing: -0.02em; color: #fff; }
+    .b-tabs { margin-top: 14px; display: grid; }
+    .b-tabs button { position: relative; display: flex; align-items: baseline; gap: 14px; width: 100%; text-align: left; font: inherit; font-weight: 800; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.035em; line-height: 1.2; color: rgba(246, 240, 230, .42); background: none; border: 0; border-top: 1px solid rgba(246, 240, 230, .14); padding: 14px 0 16px; cursor: pointer; transition: color .3s ease; }
+    .b-tabs button:last-child { border-bottom: 1px solid rgba(246, 240, 230, .14); }
+    .b-tabs button:hover { color: rgba(246, 240, 230, .75); }
+    .b-tabs .n { font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--ochre); }
+    .b-tabs button[aria-selected="true"] { color: var(--gold); }
+    .b-tabs .bar { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+    .b-tabs button[aria-selected="true"] .bar { transform: scaleX(1); }
+    .b-tabs button:focus-visible, .b-dots button:focus-visible { outline: 3px solid var(--ochre); outline-offset: 2px; }
+    .b-card { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 4.7; background: #12251a; touch-action: pan-y; }
+    .b-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; }
+    .b-slide.on { opacity: 1; }
+    .b-slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 7.6s linear; }
+    .b-slide.on img { transform: scale(1); }
+    .why-b:not(.started) .b-slide.on img { transform: scale(1.08); }
+    .b-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18, 30, 22, 0) 45%, rgba(18, 30, 22, .9) 88%); }
+    .b-cap { position: absolute; z-index: 2; left: 24px; right: 24px; bottom: 24px; }
+    .b-title { font-weight: 800; font-size: clamp(26px, 2.6vw, 38px); line-height: 1.08; letter-spacing: -0.04em; color: var(--gold); }
+    .b-sub { margin-top: 8px; font-size: 16px; font-weight: 500; color: #fff; }
+    .b-slide .b-cap { opacity: 0; transform: translateY(14px); transition: opacity .6s ease .25s, transform .6s ease .25s; }
+    .b-slide.on .b-cap { opacity: 1; transform: none; }
+    .b-dots { display: none; }
+    @media (max-width: 900px) {
+      .why-b { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "card" "dots" "cta"; }
+      .b-tabs { display: none; }
+      .b-card { aspect-ratio: 1 / 1.08; margin-top: 26px; }
+      .b-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+      .b-dots button { position: relative; width: 38px; height: 4px; padding: 0; border: 0; border-radius: 4px; background: rgba(246, 240, 230, .28); overflow: hidden; cursor: pointer; }
+      .b-dots button::after { content: ''; position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+      .b-dots button[aria-selected="true"]::after { transform: scaleX(1); }
+      .b-cap { left: 18px; right: 18px; bottom: 18px; }
+      .b-sub { font-size: 15px; }
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq { padding: clamp(96px, 12vw, 160px) 0; }
+    .faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
+    .faq-side { position: sticky; top: 118px; }
+    .faq-side h2 { margin: 22px 0 32px; }
+    .faq-side figure { margin: 0; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3.3; max-width: 400px; }
+    .faq-side figure img { width: 100%; height: 100%; object-fit: cover; }
+    .faq-list { border-top: 1px solid var(--rule); }
+    .faq-item { border-bottom: 1px solid var(--rule); }
+    .faq-q { width: 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; background: none; border: 0; padding: 26px 0; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+    .faq-q .q { font-weight: 700; font-size: clamp(19px, 1.6vw, 22px); line-height: 1.38; letter-spacing: -0.02em; transition: color .2s ease; }
+    .faq-q:hover .q, .faq-item.open .q { color: var(--terracotta); }
+    .faq-q:focus-visible { outline: 3px solid var(--ochre); outline-offset: 4px; }
+    .pm { position: relative; flex: none; width: 34px; height: 34px; margin-top: -2px; border-radius: 50%; background: var(--sand); transition: background-color .3s ease, transform .3s ease; }
+    .pm::before, .pm::after { content: ''; position: absolute; left: 50%; top: 50%; width: 13px; height: 2px; margin: -1px 0 0 -6.5px; background: var(--ink); border-radius: 2px; transition: transform .35s ease, opacity .3s ease, background-color .3s ease; }
+    .pm::after { transform: rotate(90deg); }
+    .faq-item.open .pm { background: var(--terracotta); transform: rotate(180deg); }
+    .faq-item.open .pm::before, .faq-item.open .pm::after { background: #fff; }
+    .faq-item.open .pm::after { transform: rotate(0); opacity: 0; }
+    .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.65,0,.35,1); }
+    .faq-a > div { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility 0s linear .5s; }
+    .faq-item.open .faq-a { grid-template-rows: 1fr; }
+    .faq-item.open .faq-a > div { visibility: visible; transition-delay: 0s; }
+    .faq-a .inner { padding: 0 64px 30px 0; color: var(--ink); font-size: 17.5px; font-weight: 500; }
+    .faq-a p + p, .faq-a p + ul, .faq-a ul + p { margin-top: 16px; }
+    .faq-a ul { list-style: none; padding: 0; display: grid; gap: 14px; }
+    .faq-a li { padding-left: 18px; border-left: 3px solid var(--ochre); }
+    .faq-a li strong { color: var(--ink); font-weight: 700; }
+    .faq-a a { color: var(--terracotta); font-weight: 700; text-underline-offset: 3px; }
+    @media (max-width: 900px) {
+      .faq-grid { grid-template-columns: 1fr; }
+      .faq-side { position: static; }
+      .faq-side figure { display: none; }
+      .faq-a .inner { padding-right: 0; }
+    }
+
+    /* ---------- Closing CTA ---------- */
+    .cta { position: relative; min-height: 86vh; display: flex; align-items: center; color: #fff; overflow: hidden; background: #1b130e; }
+    .cta-media { position: absolute; inset: 0; }
+    .cta-media img { width: 100%; height: 120%; object-fit: cover; object-position: 50% 30%; will-change: transform; }
+    .cta::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(20, 13, 9, .7), rgba(20, 13, 9, .1) 75%); }
+    @media (min-width: 900px) {
+      .cta-media { left: 42%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 34%); mask-image: linear-gradient(90deg, transparent 0, #000 34%); }
+    }
+    @media (max-width: 899px) {
+      .cta { align-items: flex-end; padding-bottom: 64px; }
+      .cta::before { background: linear-gradient(0deg, rgba(20, 13, 9, .9) 18%, rgba(20, 13, 9, 0) 72%); }
+    }
+    .cta .wrap { position: relative; z-index: 2; width: 100%; }
+    .cta p { font-weight: 800; font-size: clamp(34px, 4.4vw, 62px); line-height: 1.08; letter-spacing: -0.04em; max-width: 17ch; margin-bottom: 40px; }
+    .cta p .em { color: var(--gold); }
+    .cta p.cta-sub { font-weight: 500; font-size: clamp(18px, 1.6vw, 21px); letter-spacing: -0.01em; line-height: 1.5; max-width: 34ch; margin: -14px 0 34px; color: rgba(255,255,255,.85); }
+
+    /* ---------- Footer ---------- */
+    .footer { background: var(--ink); color: rgba(246, 240, 230, .7); padding: 52px 0; font-size: 15px; }
+    .footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .footer .logo { color: #f6f0e6; font-size: 22px; }
+    .footer nav { display: flex; gap: 28px; }
+    .footer nav a { text-decoration: none; }
+    .footer nav a:hover { color: #fff; }
+    .footer .fine { flex-basis: 100%; font-size: 13px; color: rgba(246, 240, 230, .5); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+  <script src="https://tally.so/widgets/embed.js" defer></script>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="wrap">
+      <a class="logo" href="#top" aria-label="Back Home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4.5 15.5 16 6l11.5 9.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 25.5a6.5 6.5 0 0 1 13 0z" fill="#e9a23b"/><path d="M5 25.5h22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        Back Home
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#our-why">Our Why</a>
+        <a href="#faqs">FAQs</a>
+        <button class="btn" data-interest>Get in touch</button>
+      </nav>
+      <button class="menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about">About</a>
+    <a href="#our-why">Our Why</a>
+    <a href="#faqs">FAQs</a>
+    <button class="btn" data-interest>Get in touch <span class="arrow">&rarr;</span></button>
+  </div>
+
+  <!-- ============ Hero ============ -->
+  <section class="hero" id="top">
+    <div class="slides" aria-hidden="true">
+      <div class="slide"><img src="images/farmer-planting.jpg" alt="" style="object-position: 60% 40%"></div>
+      <div class="slide"><img src="images/builder.jpg" alt="" style="object-position: 45% 35%"></div>
+      <div class="slide"><img src="images/fishermen-net.jpg" alt="" style="object-position: 55% 50%"></div>
+      <div class="slide slide-right"><img src="images/shop-owner-counter.jpg" alt="" style="object-position: 55% 40%"></div>
+    </div>
+    <div class="wrap hero-inner" id="hero">
+      <h1 class="sr-only">Back sustainability. Back resilience. Back community wealth. Back Home</h1>
+      <div class="seq" id="seq" aria-hidden="true">
+        <div class="line"><span class="w">Back</span> <span class="w w2 key">sustainability.</span></div>
+        <div class="line"><span class="w">Back</span> <span class="w w2 key">resilience.</span></div>
+        <div class="line"><span class="w">Back</span> <span class="w w2 key">community wealth.</span></div>
+        <div class="line"><span class="w">Back</span> <span class="w w2 home-word">Home<svg class="swash" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M6 20 C 70 6, 150 4, 294 14"/></svg></span></div>
+      </div>
+      <p class="tagline" id="tagline">Make your money work for you, and your people</p>
+    </div>
+  </section>
+
+  <!-- ============ About ============ -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <p class="eyebrow reveal">About</p>
+          <p class="about-lead reveal">Back Home is building infrastructure for <span class="em">diasporas and their allies</span> to invest in <span class="em">sustainability, resilience, and community wealth</span> back&nbsp;home.</p>
+        </div>
+        <div class="collage reveal" aria-hidden="true">
+          <span class="sun"></span>
+          <figure class="c1"><img src="images/solar-installer.jpg" alt="" loading="lazy" style="object-position: 30% 50%"></figure>
+          <figure class="c2"><img src="images/vendor-citrus.jpg" alt="" loading="lazy" style="object-position: 50% 40%"></figure>
+          <figure class="c3"><img src="images/hands-planting.jpg" alt="" loading="lazy"></figure>
+        </div>
+      </div>
+
+      <div class="bussa reveal">
+        <div class="bussa-media"><img src="images/bathsheba.jpg" alt="The east coast of Barbados at Bathsheba" loading="lazy"></div>
+        <div class="bussa-body">
+          <div>
+            <p class="eyebrow bussa-eyebrow">Our first fund</p>
+            <h2 class="bussa-title">The Bussa Fund</h2>
+            <p>We’re starting in Barbados, and we plan to support other diasporas and their home countries in the future.</p>
+          </div>
+          <div class="bussa-ctas">
+            <a class="btn btn-sun" href="https://bussafund.com/" target="_blank" rel="noopener">Visit bussafund.com <span class="arrow">&rarr;</span></a>
+            <a class="form" href="#" data-interest>Want a fund for your home?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ What we'll invest in ============ -->
+  <section class="invest" id="invest">
+    <div class="wrap">
+      <div class="invest-head">
+        <p class="eyebrow reveal">Invest in:</p>
+        <h2 class="h2 reveal">Things that make a place <span class="em">stronger</span></h2>
+      </div>
+      <div class="invest-grid">
+        <article class="card reveal"><div class="img"><img src="images/yellow-cottage.jpg" alt="A small yellow house with a tin roof" loading="lazy" style="object-position: 50% 55%"></div><div class="body"><h3>Homeownership</h3></div></article>
+        <article class="card reveal"><div class="img"><img src="images/carpenter.jpg" alt="A carpenter at work in his shop" loading="lazy" style="object-position: 45% 40%"></div><div class="body"><h3>Locally owned businesses</h3></div></article>
+        <article class="card reveal"><div class="img"><img src="images/cocoa-farmer-woman.jpg" alt="A farmer holding freshly harvested cocoa pods" loading="lazy" style="object-position: 50% 45%"></div><div class="body"><h3>Food sovereignty</h3></div></article>
+        <article class="card reveal"><div class="img"><img src="images/solar-farm-worker.jpg" alt="A worker in a safety vest at a solar farm" loading="lazy" style="object-position: 60% 50%"></div><div class="body"><h3>Green infrastructure</h3></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Our Why ============ -->
+  <section class="why" id="our-why">
+    <div class="wrap why-b" id="why-b">
+      <div class="b-text">
+        <p class="eyebrow reveal">Our Why</p>
+        <h2 class="h2 reveal">Our dollars can do <span class="em">more.</span></h2>
+        <p class="why-intro reveal">Every year, people in the US send over <strong>$100 billion</strong> to loved ones abroad. These remittances are a critical lifeline, but they have limits.</p>
+        <p class="b-lead reveal">Back Home is building infrastructure that allows money sent back home to be:</p>
+      </div>
+      <div class="b-tabs reveal" role="tablist" aria-label="What Back Home makes possible">
+        <button role="tab" id="b-tab-0" aria-selected="true" aria-controls="b-card" data-i="0"><span class="n">01</span><span>Invested in lasting solutions</span><i class="bar" aria-hidden="true"></i></button>
+        <button role="tab" id="b-tab-1" aria-selected="false" aria-controls="b-card" data-i="1"><span class="n">02</span><span>Returned with interest</span><i class="bar" aria-hidden="true"></i></button>
+        <button role="tab" id="b-tab-2" aria-selected="false" aria-controls="b-card" data-i="2"><span class="n">03</span><span>Pooled for economies of scale</span><i class="bar" aria-hidden="true"></i></button>
+      </div>
+      <div class="b-card reveal" id="b-card" role="tabpanel" aria-live="polite">
+        <div class="b-slide on"><img src="images/vendor-scale.jpg" alt="" loading="lazy" style="object-position: 50% 35%"><div class="b-cap"><p class="b-title">Invested in lasting solutions</p><p class="b-sub">Not spent on everyday expenses</p></div></div>
+        <div class="b-slide"><img src="images/tailor.jpg" alt="" loading="lazy" style="object-position: 40% 35%"><div class="b-cap"><p class="b-title">Returned with interest</p><p class="b-sub">Building wealth for diasporas at the same time</p></div></div>
+        <div class="b-slide"><img src="images/womens-coop.jpg" alt="" loading="lazy" style="object-position: 55% 40%"><div class="b-cap"><p class="b-title">Pooled for economies of scale</p><p class="b-sub">So no family has to go it alone</p></div></div>
+      </div>
+      <div class="b-dots" role="tablist" aria-label="Choose a slide">
+        <button role="tab" aria-selected="true" aria-controls="b-card" aria-label="Invested in lasting solutions" data-i="0"></button>
+        <button role="tab" aria-selected="false" aria-controls="b-card" aria-label="Returned with interest" data-i="1"></button>
+        <button role="tab" aria-selected="false" aria-controls="b-card" aria-label="Pooled for economies of scale" data-i="2"></button>
+      </div>
+      <div class="why-cta reveal"><button class="btn btn-sun" data-interest>Get in touch <span class="arrow">&rarr;</span></button></div>
+    </div>
+  </section>
+
+  <!-- ============ FAQs ============ -->
+  <section class="faq" id="faqs">
+    <div class="wrap faq-grid">
+      <div class="faq-side">
+        <p class="eyebrow reveal">FAQs</p>
+        <h2 class="h2 reveal">Frequently Asked Questions</h2>
+        <figure class="reveal"><img src="images/vendor-avocados.jpg" alt="" loading="lazy" style="object-position: 40% 40%"></figure>
+      </div>
+      <div class="faq-list" id="faq-list">
+        <div class="faq-item reveal" id="who-can-invest">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a1"><span class="q">Do I have to be a member of a diaspora to invest in that country’s fund?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a1" role="region"><div><div class="inner">
+            <p>No! Our goal is for each Back Home fund to be open to everyone.</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="when-can-i-invest">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a2"><span class="q">When can I invest?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a2" role="region"><div><div class="inner">
+            <p>Our goal is to formally launch at some point in 2027.</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="donations">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a3"><span class="q">Will you accept donations?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a3" role="region"><div><div class="inner">
+            <p>Yes!</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="build-a-fund">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a4"><span class="q">Can you help me build a fund for my ancestral home?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a4" role="region"><div><div class="inner">
+            <p>Yes! Please <a href="#" data-interest>get in touch</a>.</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="what-we-mean">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a5"><span class="q">What do you mean by sustainability, resilience, and community wealth?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a5" role="region"><div><div class="inner">
+            <ul>
+              <li><strong>Sustainability</strong> means meeting today’s needs without using up what future generations will depend on</li>
+              <li><strong>Resilience</strong> means being able to recover quickly when hard times hit</li>
+              <li><strong>Community wealth</strong> means that the people who live and work in a place own more of what gets built there, so profits and decision-making power stay in the community</li>
+            </ul>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="impact-investing">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a6"><span class="q">Is there a name for this kind of investing?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a6" role="region"><div><div class="inner">
+            <p>Yes. Investing in ways that are aligned with social and environmental values is called “impact investing.”</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="how-it-works">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a7"><span class="q">Can you tell me more about how it will work?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a7" role="region"><div><div class="inner">
+            <p>We’re still figuring out the model, but this is our best guess:</p>
+            <p>Back Home will create place-based funds for diasporas and their allies to invest in. We’ll collect and pool investments from individual and institutional investors in the United States. Then, we’ll lend that money to intermediary organizations in the corresponding country, who will lend the funds to end borrowers. Based on the terms of the loan, the end borrowers will repay the intermediaries, the intermediaries will repay Back Home, and Back Home will repay its investors.</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="similar-organizations">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a8"><span class="q">Are there other organizations that do this type of work?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a8" role="region"><div><div class="inner">
+            <p>Yes. <a href="https://www.calvertimpact.org/" target="_blank" rel="noopener">Calvert Impact</a> and <a href="https://www.wccn.org/" target="_blank" rel="noopener">Working Capital for Community Needs</a> raise investment capital from individuals and institutional investors in the US, pool the funds, and lend to values-driven borrowers abroad.</p>
+          </div></div></div>
+        </div>
+        <div class="faq-item reveal" id="who-is-behind-back-home">
+          <h3><button class="faq-q" aria-expanded="false" aria-controls="a9"><span class="q">Who is behind Back Home?</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <div class="faq-a" id="a9" role="region"><div><div class="inner">
+            <p>With over 20 years of experience in the social impact and non-profit sectors, Anand Jahi (né Goodridge) has spent his career supporting working and middle class families build wealth by leveraging strategies that benefit the environment and broader community. As an independent consultant, Anand has advised philanthropic foundations, mission-driven businesses, community loan funds, and national non-profit organizations.</p>
+            <p>The descendant of Barbadian immigrants to the United States, Anand is passionate about building bridges between the island and the diaspora that are rooted in mutual benefit, respect, and justice.</p>
+          </div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Closing CTA ============ -->
+  <section class="cta" id="cta">
+    <div class="cta-media" aria-hidden="true"><img src="images/mother-child.jpg" alt="" loading="lazy" id="cta-img"></div>
+    <div class="wrap">
+      <p class="reveal">Ready to invest in <span class="em">sustainability, resilience, and community wealth</span> back home?</p>
+      <p class="cta-sub reveal">Whether you want to invest, give, or build a fund for your own home, start here.</p>
+      <div class="reveal"><button class="btn btn-light" data-interest>Get in touch <span class="arrow">&rarr;</span></button></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span class="logo">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4.5 15.5 16 6l11.5 9.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 25.5a6.5 6.5 0 0 1 13 0z" fill="#e9a23b"/><path d="M5 25.5h22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        Back Home
+      </span>
+      <nav aria-label="Footer">
+        <a href="#about">About</a>
+        <a href="#our-why">Our Why</a>
+        <a href="#faqs">FAQs</a>
+      </nav>
+      <span>&copy; 2026 Back Home</span>
+      <p class="fine">Back Home is in the planning stage. Nothing on this site is an offer to sell securities.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Back Home's Tally interest form
+    const INTEREST_FORM_ID = 'RGX9yK';
+    function openInterestForm() {
+      if (window.Tally) Tally.openPopup(INTEREST_FORM_ID, { width: 700 });
+      else window.open('https://tally.so/r/' + INTEREST_FORM_ID, '_blank', 'noopener');
+    }
+    document.querySelectorAll('[data-interest]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); closeMenu(); openInterestForm(); }));
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    // Nav: transparent over the hero photo, solid once you scroll
+    const nav = document.getElementById('nav');
+    const hero = document.querySelector('.hero');
+    function updateNav() { nav.classList.toggle('solid', window.scrollY > hero.offsetHeight - 90); }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    function closeMenu() { document.body.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    menuBtn.addEventListener('click', () => {
+      const open = !document.body.classList.contains('menu-open');
+      document.body.classList.toggle('menu-open', open);
+      menuBtn.setAttribute('aria-expanded', open);
+    });
+    document.querySelectorAll('#mobile-menu a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Hero: each sentence sharpens into view over its own photograph, then
+    // blurs away; "Back Home" stays and gets an underline, and the tagline
+    // fills in from left to right
+    const lines = [...document.querySelectorAll('#seq .line')];
+    const slides = [...document.querySelectorAll('.slide')];
+    const tagline = document.getElementById('tagline');
+    function show(i) { slides.forEach((s, j) => s.classList.toggle('on', j === i)); }
+
+    function finishHero() {
+      document.getElementById('hero').classList.add('hero-instant');
+      lines.forEach((l, i) => { l.classList.remove('in', 'out'); if (i === lines.length - 1) l.classList.add('in'); });
+      show(slides.length - 1);
+      tagline.classList.add('show');
+    }
+
+    async function playHero() {
+      // Wait for the first photo so the opening isn't a dark screen
+      const first = slides[0].querySelector('img');
+      if (!first.complete) await Promise.race([new Promise(r => { first.onload = first.onerror = r; }), wait(2500)]);
+      await wait(250);
+      for (let i = 0; i < lines.length; i++) {
+        show(i);
+        await wait(i === 0 ? 350 : 200);
+        lines[i].classList.add('in');
+        if (i === lines.length - 1) break;
+        await wait(2100);
+        lines[i].classList.add('out');
+        await wait(480);
+        lines[i].classList.remove('in', 'out');
+      }
+      await wait(1500);
+      tagline.classList.add('show');
+    }
+    if (reduceMotion) finishHero(); else playHero();
+
+    // Scroll reveals, staggered when several arrive together
+    const io = new IntersectionObserver(entries => {
+      entries.filter(e => e.isIntersecting).forEach((e, i) => {
+        e.target.style.transitionDelay = (i * 0.1) + 's';
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+        setTimeout(() => { e.target.style.transitionDelay = ''; }, 1000 + i * 100);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Gentle parallax on the closing photo
+    const ctaImg = document.getElementById('cta-img');
+    const cta = document.getElementById('cta');
+    if (!reduceMotion) {
+      window.addEventListener('scroll', () => {
+        const r = cta.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const p = (innerHeight - r.top) / (innerHeight + r.height);
+        ctaImg.style.transform = `translateY(${-p * 16}%)`;
+      }, { passive: true });
+    }
+
+    // Our Why: one message at a time. The card advances on its own while it's
+    // on screen, pauses while you hover or touch it, and you can tap or swipe.
+    (function () {
+      const root = document.getElementById('why-b');
+      const slides = [...root.querySelectorAll('.b-slide')];
+      const buttons = [...root.querySelectorAll('[role="tab"]')];
+      const card = document.getElementById('b-card');
+      const DUR = 6760;
+      let i = 0, elapsed = 0, last = 0, raf = 0, visible = false, held = false, started = false;
+      function go(n) {
+        i = (n + slides.length) % slides.length;
+        elapsed = 0;
+        slides.forEach((s, j) => s.classList.toggle('on', j === i));
+        buttons.forEach(b => b.setAttribute('aria-selected', +b.dataset.i === i));
+        root.style.setProperty('--p', 0);
+      }
+      function frame(t) {
+        const dt = last ? Math.min(100, t - last) : 0;
+        last = t;
+        if (!held) elapsed += dt;
+        root.style.setProperty('--p', Math.min(1, elapsed / DUR));
+        if (elapsed >= DUR) go(i + 1);
+        raf = requestAnimationFrame(frame);
+      }
+      buttons.forEach(b => b.addEventListener('click', () => go(+b.dataset.i)));
+      card.addEventListener('mouseenter', () => { held = true; });
+      card.addEventListener('mouseleave', () => { held = false; });
+      let x0 = null;
+      card.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; held = true; }, { passive: true });
+      card.addEventListener('touchend', e => {
+        held = false;
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+        x0 = null;
+      });
+      if (reduceMotion) { root.classList.add('started'); return; }
+      new IntersectionObserver(es => {
+        visible = es[0].isIntersecting;
+        if (visible && !started) {
+          // The first photo holds at its starting size until the card is in
+          // view (and loaded), then zooms for the full time it's shown
+          started = true;
+          const img = slides[i].querySelector('img');
+          const begin = () => { elapsed = 0; requestAnimationFrame(() => root.classList.add('started')); };
+          if (img.complete) begin(); else img.addEventListener('load', begin, { once: true });
+        }
+        if (visible && !raf) { last = 0; raf = requestAnimationFrame(frame); }
+        if (!visible && raf) { cancelAnimationFrame(raf); raf = 0; }
+      }, { threshold: 0.35 }).observe(card);
+    })();
+
+    // FAQ accordion
+    function setOpen(item, open) {
+      item.classList.toggle('open', open);
+      item.querySelector('.faq-q').setAttribute('aria-expanded', open);
+    }
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-q').addEventListener('click', () => setOpen(item, !item.classList.contains('open')));
+    });
+    const linked = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (linked && linked.classList.contains('faq-item')) setOpen(linked, true);
+  </script>
+</body>
+</html>
