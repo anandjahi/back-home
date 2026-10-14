@@ -161,25 +161,25 @@
     @media (max-width: 560px) { .invest-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .card .img { aspect-ratio: 1; } .card .body { padding: 12px 14px 14px; } .card h3 { font-size: 15.5px; } }
 
     /* ---------- Our Why ---------- */
-    .why { background: var(--leaf); color: #f6f0e6; padding: clamp(72px, 10vw, 136px) 0; }
+    .why { background: var(--leaf); color: #f6f0e6; padding: clamp(48px, 4.5vw, 64px) 0; }
     .why .eyebrow { color: var(--ochre); }
-    .why h2 { margin-top: 20px; font-size: clamp(42px, 6vw, 88px); line-height: .98; }
+    .why h2 { margin-top: 20px; }
     .why h2 .em { color: var(--gold); }
     .why-intro { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; color: rgba(246, 240, 230, 0.84); }
     .why-intro strong { color: #fff; font-weight: 800; font-size: 1.25em; letter-spacing: -0.02em; }
     .why-top { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; margin-bottom: clamp(36px, 5vw, 60px); }
     .why-cta { margin-top: clamp(30px, 4vw, 48px); }
     @media (max-width: 900px) { .why-top { grid-template-columns: 1fr; } }
-    .why-b { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "text card" "tabs card" "cta card"; column-gap: clamp(32px, 6vw, 96px); align-items: start; }
+    .why-b { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); grid-template-areas: "text card" "tabs card" "cta card"; column-gap: clamp(32px, 6vw, 96px); align-items: start; }
     .b-text { grid-area: text; }
     .b-tabs { grid-area: tabs; }
-    .why-b .why-cta { grid-area: cta; }
+    .why-b .why-cta { grid-area: cta; margin-top: clamp(24px, 2.5vw, 32px); }
     .b-card { grid-area: card; align-self: center; }
     .b-dots { grid-area: dots; }
-    .why-b h2 { margin-bottom: 22px; }
-    .b-lead { margin-top: 18px; font-weight: 700; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.4; letter-spacing: -0.02em; color: #fff; }
+    .why-b h2 { margin-bottom: 16px; }
+    .b-lead { margin-top: 14px; font-weight: 700; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.4; letter-spacing: -0.02em; color: #fff; }
     .b-tabs { margin-top: 14px; display: grid; }
-    .b-tabs button { position: relative; display: flex; align-items: baseline; gap: 14px; width: 100%; text-align: left; font: inherit; font-weight: 800; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.035em; line-height: 1.2; color: rgba(246, 240, 230, .42); background: none; border: 0; border-top: 1px solid rgba(246, 240, 230, .14); padding: 14px 0 16px; cursor: pointer; transition: color .3s ease; }
+    .b-tabs button { position: relative; display: flex; align-items: baseline; gap: 14px; width: 100%; text-align: left; font: inherit; font-weight: 800; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.035em; line-height: 1.2; color: rgba(246, 240, 230, .42); background: none; border: 0; border-top: 1px solid rgba(246, 240, 230, .14); padding: 11px 0 12px; cursor: pointer; transition: color .3s ease; }
     .b-tabs button:last-child { border-bottom: 1px solid rgba(246, 240, 230, .14); }
     .b-tabs button:hover { color: rgba(246, 240, 230, .75); }
     .b-tabs .n { font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--ochre); }
@@ -187,7 +187,7 @@
     .b-tabs .bar { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left; }
     .b-tabs button[aria-selected="true"] .bar { transform: scaleX(1); }
     .b-tabs button:focus-visible, .b-dots button:focus-visible { outline: 3px solid var(--ochre); outline-offset: 2px; }
-    .b-card { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 4.7; background: #12251a; touch-action: pan-y; }
+    .b-card { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 1 / 1; background: #12251a; touch-action: pan-y; }
     .b-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; }
     .b-slide.on { opacity: 1; }
     .b-slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 7.6s linear; }
